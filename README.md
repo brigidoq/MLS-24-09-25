@@ -20,7 +20,7 @@ Conceptos de machine learning, incluyendo qué es una red neuronal, cómo se div
 
 ## Uso
 
-Ingresar la link para cargar el cuestionario creado con el prompt mejorado.
+Ingresar la link https://brigidoq.github.io/MLS-24-09-25/ para cargar el cuestionario creado con el prompt mejorado.
 
 ## Contribución
 
