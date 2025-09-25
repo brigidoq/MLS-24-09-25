@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso Interactivo de Machine Learning de la clase de hoy 24-09-2025 con Dennys</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+        :root {
+            --primary-color: #3A7CA5;
+            --secondary-color: #D9E6F0;
+            --accent-color: #FF6F61;
+            --text-color: #2C3E50;
+            --bg-color: #F8F9FA;
+            --light-gray: #EAECEE;
+            --white: #FFFFFF;
+            --success-color: #28A745;
+            --error-color: #DC3545;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.8;
+            color: var(--text-color);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--bg-color);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+        
+        h2, h3 {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: var(--light-gray);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 25px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            text-align: center;
+            line-height: 25px;
+            color: var(--white);
+            border-radius: 10px 0 0 10px;
+            transition: width 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+            font-weight: 600;
+        }
+
+        .module {
+            display: none;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .module.active {
+            display: block;
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 3px solid var(--secondary-color);
+        }
+
+        .quiz-options label {
+            display: block;
+            margin-bottom: 12px;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 8px;
+            background-color: var(--bg-color);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .quiz-options label:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .quiz-options input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin-right: 10px;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        button:hover {
+            background-color: #2c5d82; /* Darker shade of primary */
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        #nextBtn {
+            background-color: var(--accent-color);
+        }
+
+        #nextBtn:hover {
+            background-color: #e65a50; /* Darker shade of accent */
+        }
+
+        .navigation-buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .feedback.correct {
+            background-color: #e9f7ea;
+            color: var(--success-color);
+            border-left: 5px solid var(--success-color);
+        }
+
+        .feedback.incorrect {
+            background-color: #fbe9e7;
+            color: var(--error-color);
+            border-left: 5px solid var(--error-color);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Curso Interactivo de Machine Learning de la clase de hoy 24-09-2025 con Dennys</h1>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar">0%</div>
+    </div>
+
+    <div id="course-container">
+        <!-- Módulos se insertarán aquí dinámicamente -->
+    </div>
+
+    <div class="navigation-buttons">
+        <button id="prevBtn" onclick="navigate(-1)" disabled>Anterior</button>
+        <button id="nextBtn" onclick="navigate(1)">Siguiente</button>
+    </div>
+
+    <script>
+        const modules = [
+            {
+                title: "Introducción al Machine Learning",
+                summary: "El Machine Learning es una rama de la inteligencia artificial que se centra en el desarrollo de algoritmos que permiten a las computadoras aprender de los datos. Se exploran conceptos como redes neuronales, que imitan el cerebro humano, los diferentes tipos de datos que se utilizan y cómo los algoritmos aprenden a través de entrenamiento, ya sea por inyección de información, corrección o recompensas.",
+                quiz: [
+                    {
+                        question: "¿Qué es una red neuronal?",
+                        options: ["Una red de computadoras físicas.", "Un modelo computacional inspirado en el cerebro humano.", "Un tipo de base de datos."],
+                        answer: "Un modelo computacional inspirado en el cerebro humano."
+                    },
+                    {
+                        question: "¿Cómo aprenden los algoritmos de Machine Learning?",
+                        options: ["Solo mediante programación explícita.", "A través de inyección de información, corrección o sistemas de recompensas.", "Leyendo libros de texto."],
+                        answer: "A través de inyección de información, corrección o sistemas de recompensas."
+                    },
+                    {
+                        question: "La matemática detrás de las redes neuronales es fundamental para:",
+                        options: ["Clases futuras más complejas.", "Entender el hardware.", "Diseñar la interfaz de usuario."],
+                        answer: "Clases futuras más complejas."
+                    }
+                ]
+            },
+            {
+                title: "Modelos de Lenguaje (GPT y BERT)",
+                summary: "Se discuten dos de los modelos de lenguaje más influyentes: GPT (Generative Pre-training Transformer), conocido por su capacidad de generar contenido similar al humano, y BERT (Bidirectional Encoder Representations from Transformers), que se destaca por su comprensión del contexto al leer texto en ambas direcciones (izquierda-derecha y derecha-izquierda).",
+                quiz: [
+                    {
+                        question: "¿Cuál es la principal capacidad de GPT?",
+                        options: ["Generar texto similar al humano, código, imágenes, etc.", "Solo clasificar texto.", "Traducir idiomas únicamente."],
+                        answer: "Generar texto similar al humano, código, imágenes, etc."
+                    },
+                    {
+                        question: "¿Qué diferencia a BERT de GPT?",
+                        options: ["BERT es más antiguo.", "BERT utiliza lectura bidireccional para entender mejor el contexto.", "GPT solo funciona con imágenes."],
+                        answer: "BERT utiliza lectura bidireccional para entender mejor el contexto."
+                    }
+                ]
+            },
+            {
+                title: "Redes Neuronales (RNN y Residuales)",
+                summary: "Este módulo explica dos arquitecturas de redes neuronales especializadas. Las Redes Neuronales Recurrentes (RNN) están diseñadas para manejar datos secuenciales, como series de tiempo o texto. Las Redes Residuales (ResNets) son más complejas y se utilizan principalmente en el reconocimiento de imágenes, permitiendo construir modelos mucho más profundos.",
+                quiz: [
+                    {
+                        question: "¿Para qué tipo de datos están diseñadas las RNN?",
+                        options: ["Imágenes estáticas.", "Datos tabulares.", "Datos secuenciales como texto o series de tiempo."],
+                        answer: "Datos secuenciales como texto o series de tiempo."
+                    },
+                    {
+                        question: "Las redes residuales son especialmente útiles para:",
+                        options: ["Reconocimiento de imágenes.", "Procesamiento de audio.", "Análisis de sentimiento."],
+                        answer: "Reconocimiento de imágenes."
+                    }
+                ]
+            },
+            {
+                title: "Visión por Computadora (Yolo)",
+                summary: "La visión por computadora es un campo del Machine Learning que enseña a las máquinas a 'ver'. Se menciona el modelo YOLO (You Only Look Once) como ejemplo para un sistema de tráfico inteligente. Se destacan los desafíos prácticos como la necesidad de buen hardware (cámaras de calidad), un sistema eficiente para la transmisión de datos y los altos costos asociados a la infraestructura.",
+                quiz: [
+                    {
+                        question: "¿Qué significa YOLO en el contexto de visión por computadora?",
+                        options: ["You Ought to Learn Once.", "You Only Live Once.", "You Only Look Once."],
+                        answer: "You Only Look Once."
+                    },
+                    {
+                        question: "¿Cuál es una de las principales limitaciones para implementar sistemas de visión por computadora en Guatemala según el texto?",
+                        options: ["La falta de algoritmos.", "La infraestructura y los altos costos.", "La falta de interés."],
+                        answer: "La infraestructura y los altos costos."
+                    }
+                ]
+            },
+            {
+                title: "Sistemas de Audio y Redes Generativas (GAN)",
+                summary: "Se explora cómo el Machine Learning se aplica al audio, con ejemplos como Amazon Polly, que convierte texto a voz. También se introduce el concepto de Redes Generativas Antagónicas (GAN), un tipo de modelo que consiste en dos redes (un generador y un discriminador) que compiten entre sí para crear contenido multimedia nuevo y realista.",
+                quiz: [
+                    {
+                        question: "¿Qué hace un servicio como Amazon Polly?",
+                        options: ["Reconoce canciones.", "Convierte texto a voz.", "Mejora la calidad del audio."],
+                        answer: "Convierte texto a voz."
+                    },
+                    {
+                        question: "¿Qué son las GAN?",
+                        options: ["Un algoritmo de compresión de audio.", "Una red para detectar fraudes.", "Una red generativa antagónica para crear contenido multimedia."],
+                        answer: "Una red generativa antagónica para crear contenido multimedia."
+                    }
+                ]
+            },
+            {
+                title: "Tipos de Datos en Machine Learning",
+                summary: "Los datos son la base del Machine Learning. Se diferencian los datos estructurados (organizados en filas y columnas, como en una tabla) de los no estructurados (texto, imágenes, videos). La calidad de los datos de entrenamiento es crucial, ya que los resultados del modelo dependen directamente de la precisión de los datos de entrada.",
+                quiz: [
+                    {
+                        question: "Un ejemplo de dato no estructurado es:",
+                        options: ["Una tabla de ventas en Excel.", "Una base de datos de clientes.", "El contenido de un artículo de noticias."],
+                        answer: "El contenido de un artículo de noticias."
+                    },
+                    {
+                        question: "¿Por qué es importante la calidad de los datos de entrenamiento?",
+                        options: ["Porque los datos de mala calidad no ocupan espacio.", "Porque los resultados del modelo dependen directamente de la precisión de los datos.", "Porque es más fácil de procesar."],
+                        answer: "Porque los resultados del modelo dependen directamente de la precisión de los datos."
+                    }
+                ]
+            },
+            {
+                title: "Aprendizaje Supervisado y No Supervisado",
+                summary: "Se describen dos de los principales tipos de aprendizaje. El aprendizaje supervisado utiliza datos etiquetados para predecir resultados (ej. regresión para predecir valores numéricos). El aprendizaje no supervisado trabaja con datos no etiquetados para descubrir patrones, como agrupar datos similares (clustering) o detectar comportamientos inusuales (detección de anomalías).",
+                quiz: [
+                    {
+                        question: "El aprendizaje supervisado requiere:",
+                        options: ["Datos sin etiquetas.", "Datos etiquetados con una 'respuesta correcta'.", "Muy pocos datos."],
+                        answer: "Datos etiquetados con una 'respuesta correcta'."
+                    },
+                    {
+                        question: "La detección de fraudes bancarios es un ejemplo de:",
+                        options: ["Agrupamiento (Clustering).", "Regresión.", "Detección de anomalías."],
+                        answer: "Detección de anomalías."
+                    },
+                    {
+                        question: "Segmentar clientes de un supermercado según sus hábitos de compra es un ejemplo de:",
+                        options: ["Aprendizaje supervisado.", "Agrupamiento (Clustering).", "Aprendizaje por refuerzo."],
+                        answer: "Agrupamiento (Clustering)."
+                    }
+                ]
+            },
+            {
+                title: "Aprendizaje Semi-supervisado, Auto-supervisado y por Refuerzo",
+                summary: "Se exploran enfoques más avanzados. El semi-supervisado combina una pequeña cantidad de datos etiquetados con muchos datos no etiquetados. El auto-supervisado permite al modelo generar sus propias etiquetas. El aprendizaje por refuerzo implica que un 'agente' aprenda a tomar decisiones en un entorno para maximizar una recompensa, similar a como un robot aprende a jugar ajedrez.",
+                quiz: [
+                    {
+                        question: "¿Qué caracteriza al aprendizaje por refuerzo?",
+                        options: ["Usa solo datos etiquetados.", "Un agente aprende tomando decisiones para maximizar recompensas.", "No necesita datos."],
+                        answer: "Un agente aprende tomando decisiones para maximizar recompensas."
+                    },
+                    {
+                        question: "El aprendizaje auto-supervisado se aplica en modelos como:",
+                        options: ["YOLO y ResNet.", "BERT y GPT.", "K-Means."],
+                        answer: "BERT y GPT."
+                    }
+                ]
+            },
+            {
+                title: "Ingeniería de Prompts",
+                summary: "La ingeniería de prompts es la técnica de diseñar cuidadosamente las instrucciones (prompts) que se le dan a un modelo de IA para obtener los mejores resultados. Esto incluye dar contexto, especificar la estructura de la respuesta deseada e incluso usar 'negative prompting' para indicar qué información se debe omitir.",
+                quiz: [
+                    {
+                        question: "¿Qué es la ingeniería de prompts?",
+                        options: ["Programar el modelo desde cero.", "La técnica de dar indicaciones a un modelo de IA para optimizar las respuestas.", "El diseño físico del hardware de IA."],
+                        answer: "La técnica de dar indicaciones a un modelo de IA para optimizar las respuestas."
+                    },
+                    {
+                        question: "¿Qué es el 'negative prompting'?",
+                        options: ["Dar instrucciones con mala actitud.", "Indicar a la IA qué información debe omitir.", "Esperar una respuesta negativa."],
+                        answer: "Indicar a la IA qué información debe omitir."
+                    }
+                ]
+            },
+            {
+                title: "Parámetros de Inferencia en Modelos de IA",
+                summary: "Son ajustes que controlan cómo el modelo genera una respuesta. 'Temperature' controla la creatividad (más alto = más creativo pero menos coherente). 'Top-p' controla la diversidad de palabras. 'Stop sequence' le dice al modelo cuándo detenerse. Estos parámetros permiten afinar el comportamiento del modelo para una tarea específica.",
+                quiz: [
+                    {
+                        question: "Si aumentas el valor de 'temperature', ¿qué efecto tiene en la respuesta del modelo?",
+                        options: ["Se vuelve más coherente y predecible.", "Se vuelve más creativa y diversa, con riesgo de perder coherencia.", "No tiene ningún efecto."],
+                        answer: "Se vuelve más creativa y diversa, con riesgo de perder coherencia."
+                    },
+                    {
+                        question: "¿Para qué sirve el parámetro 'stop sequence'?",
+                        options: ["Para iniciar la generación de texto.", "Para indicar al modelo cuándo debe dejar de generar resultados.", "Para medir la velocidad del modelo."],
+                        answer: "Para indicar al modelo cuándo debe dejar de generar resultados."
+                    }
+                ]
+            }
+        ];
+
+        let currentModule = 0;
+        let moduleScores = Array(modules.length).fill(null);
+
+        const courseContainer = document.getElementById('course-container');
+        const progressBar = document.getElementById('progressBar');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function renderCourse() {
+            courseContainer.innerHTML = '';
+            modules.forEach((module, index) => {
+                const moduleEl = document.createElement('div');
+                moduleEl.className = 'module' + (index === currentModule ? ' active' : '');
+                moduleEl.id = 'module-' + index;
+
+                let quizHTML = '';
+                if (module.quiz) {
+                    quizHTML += '<h3>Autoevaluación</h3>';
+                    module.quiz.forEach((q, qIndex) => {
+                        quizHTML += `<div class="quiz-question" id="quiz-${index}-${qIndex}">`;
+                        quizHTML += `<p><strong>${qIndex + 1}. ${q.question}</strong></p>`;
+                        quizHTML += `<div class="quiz-options">`;
+                        q.options.forEach(option => {
+                            quizHTML += `
+                                <label>
+                                    <input type="radio" name="q${index}_${qIndex}" value="${option}">
+                                    ${option}
+                                </label>
+                            `;
+                        });
+                        quizHTML += `</div><div class="feedback"></div></div>`;
+                    });
+                    quizHTML += `<button onclick="submitQuiz(${index})">Enviar respuestas</button>`;
+                }
+
+                moduleEl.innerHTML = `
+                    <h2>${module.title}</h2>
+                    <p>${module.summary}</p>
+                    ${quizHTML}
+                `;
+                courseContainer.appendChild(moduleEl);
+            });
+            updateNavigation();
+        }
+
+        function submitQuiz(moduleIndex) {
+            const module = modules[moduleIndex];
+            let score = 0;
+            let allAnswered = true;
+            module.quiz.forEach((q, qIndex) => {
+                const questionEl = document.getElementById(`quiz-${moduleIndex}-${qIndex}`);
+                const feedbackEl = questionEl.querySelector('.feedback');
+                const selected = document.querySelector(`input[name="q${moduleIndex}_${qIndex}"]:checked`);
+
+                if (!selected) {
+                    allAnswered = false;
+                    return;
+                }
+
+                if (selected.value === q.answer) {
+                    score++;
+                    feedbackEl.textContent = '¡Correcto!';
+                    feedbackEl.className = 'feedback correct';
+                } else {
+                    feedbackEl.textContent = `Incorrecto. La respuesta correcta es: "${q.answer}"`;
+                    feedbackEl.className = 'feedback incorrect';
+                }
+            });
+
+            if (!allAnswered) {
+                alert('Por favor, responde todas las preguntas.');
+                return;
+            }
+            
+            const totalQuestions = module.quiz.length;
+            moduleScores[moduleIndex] = (score / totalQuestions) * 100;
+            updateProgressBar();
+        }
+
+        function updateProgressBar() {
+            const completedModules = moduleScores.filter(score => score !== null).length;
+            const progress = (completedModules / modules.length) * 100;
+            progressBar.style.width = progress + '%';
+            progressBar.textContent = Math.round(progress) + '%';
+        }
+
+        function navigate(direction) {
+            const newModule = currentModule + direction;
+            if (newModule >= 0 && newModule < modules.length) {
+                document.getElementById('module-' + currentModule).classList.remove('active');
+                currentModule = newModule;
+                document.getElementById('module-' + currentModule).classList.add('active');
+                updateNavigation();
+            }
+        }
+
+        function updateNavigation() {
+            prevBtn.disabled = currentModule === 0;
+            nextBtn.disabled = currentModule === modules.length - 1;
+        }
+
+        // Initial render
+        renderCourse();
+
+    </script>
+
+</body>
+</html>
