@@ -1,10 +1,10 @@
-# MLS-24-09-25
+# Clase de MLS-24-09-25
 
-Este repositorio contiene el proyecto **MLS-24-09-25**.
+Este repositorio contiene el proyecto **Clase de MLS-24-09-25**.
 
 ## Descripción
 
-Agrega aquí una breve descripción de tu proyecto. Por ejemplo, el objetivo principal, tecnologías utilizadas, y cualquier información relevante.
+Conceptos de machine learning, incluyendo qué es una red neuronal, cómo se dividen, la matemática detrás de ellas y los tipos de datos.
 
 ## Instalación
 
@@ -20,7 +20,7 @@ Agrega aquí una breve descripción de tu proyecto. Por ejemplo, el objetivo pri
 
 ## Uso
 
-Explica aquí cómo ejecutar tu proyecto, comandos principales, ejemplos de uso, etc.
+Ingresar la link para cargar el cuestionario creado con el prompt mejorado.
 
 ## Contribución
 
